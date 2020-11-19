@@ -43,7 +43,7 @@ def condat_simplex(y, s=1):
                 to_remove.append(i)
                 p = p + (p - y_)/(len(v)-len(to_remove))
 
-        for index in sorted(to_remove, reverse=True):
+        for index in reversed(to_remove):
             del v[index]
 
         first = True

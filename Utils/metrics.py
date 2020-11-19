@@ -19,6 +19,8 @@ def generate_metrics(n, dim, projectors, plot=False):
     results = {}
 
     for name in list(projectors):
+        torch.manual_seed(0) # Generate same samples for all projectors
+        
         times = []
         for dim in dims:
             replace_line("Running " + str(name) + " DIM: " + str(dim))
