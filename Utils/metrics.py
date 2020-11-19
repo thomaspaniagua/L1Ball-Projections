@@ -2,12 +2,13 @@ import torch
 import time
 import matplotlib.pyplot as plt
 import sys
+import math
 
 def replace_line(print_string):
     sys.stdout.write("\r" + " "*40)
     sys.stdout.write("\r" + print_string)
 
-def generate_metrics(n, dim, projectors, plot=False):
+def generate_metrics(n, dim, projectors, plot=False, normal_sample=False):
     """
     n: Tests per dimension
     dim: Maximum dimensionality to test
@@ -20,12 +21,15 @@ def generate_metrics(n, dim, projectors, plot=False):
 
     for name in list(projectors):
         torch.manual_seed(0) # Generate same samples for all projectors
-        
+
         times = []
         for dim in dims:
             replace_line("Running " + str(name) + " DIM: " + str(dim))
             start = time.time_ns()
-            x = torch.rand(n, dim)*4 - 2
+            if normal_sample:
+                x = torch.randn(n, dim)*math.sqrt(2)
+            else:
+                x = torch.rand(n, dim)*4 - 2
             x_proj = projectors[name](x)
             end = time.time_ns()
 
